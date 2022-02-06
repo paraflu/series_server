@@ -1,0 +1,6 @@
+Flask
+Flask-Testing
+nose
+beautifulsoup4
+requests
+pytest
