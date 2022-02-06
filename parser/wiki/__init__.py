@@ -1,1 +1,1 @@
-from parser import Episode
+from episodes import Episode
