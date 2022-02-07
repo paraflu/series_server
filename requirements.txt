@@ -4,3 +4,5 @@ nose
 beautifulsoup4
 requests
 pytest
+lxml
+dateparser
