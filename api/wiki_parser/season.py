@@ -1,6 +1,7 @@
 from datetime import datetime
+from this import d
 from turtle import numinput
-from typing import List, Optional
+from typing import Dict, List, Optional
 from .episode import Episode
 
 
@@ -45,3 +46,12 @@ class Season:
                 list = [e for e in list if e.local_aired]
             return list[-1]
         return None
+
+    def to_dict(self) -> Dict:
+        return {
+            'n': self.n,
+            'num_episodes': self.num_episodes,
+            'first_aired': self.first_aired,
+            'local_aired': self.local_aired,
+            'episodes': [e.to_dict() for e in self.episoded],
+        }

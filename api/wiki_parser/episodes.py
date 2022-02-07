@@ -8,6 +8,7 @@ import dateparser
 
 from .episode import Episode
 from .season import Season
+from .serie import Serie
 
 import logging
 logging.basicConfig(level=logging.DEBUG)
@@ -20,18 +21,20 @@ class Episodes(object):
         # self._baseurl = baseurl
         self._baseurl = baseurl
 
-    def get(self) -> List[Season]:
+    def get(self) -> Serie:
         response = requests.get(self._baseurl)
         data = response.text
         r = BeautifulSoup(data, 'lxml')
         table = r.select_one('table.wikitable')
+        title = r.select_one('#firstHeading').text
+        serie = Serie(title)
 
         seasons = []
         if table:
             for row in table.find_all('tr')[1:]:
                 seasons.append(self._parse_row(row))
-
-        return seasons
+        serie.seasons = seasons
+        return serie
 
     def _parse_date(self, date_str) -> Optional[datetime]:
         if date_str.strip() == '':
