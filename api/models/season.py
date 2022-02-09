@@ -24,3 +24,12 @@ class Season(db.Model):
 
     def __repr__(self):
         return '<Season %r>' % self.id
+
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "num_episodes": self.num_episodes,
+            "first_aired": self.first_aired,
+            "local_aired": self.local_aired,
+            "episodes": [e.as_dict() for e in self.episodes]
+        }

@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Dict
 from app import db
 from ..wiki_parser import Episode as ViewEpisode
 
@@ -25,3 +26,12 @@ class Episode(db.Model):
 
     def __repr__(self):
         return '<Episode %r>' % self.original_title
+
+    def as_dict(self) -> Dict:
+        return {
+            "id": self.id,
+            "original_title": self.original_title,
+            "local_title": self.local_title,
+            "first_aired": self.first_aired,
+            "local_aired": self.local_aired,
+        }

@@ -18,10 +18,10 @@ def parse_data():
     try:
         serie = request.form['series']
         serie = Parser(serie).get()
-        
+
         it = Serie.convert(serie)
         db.session.add(it)
         db.session.commit()
-        return jsonify(it)
+        return jsonify(it.as_dict())
     except Exception as e:
         return abort(500, e)
