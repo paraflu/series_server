@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.DEBUG)
 locale.setlocale(locale.LC_ALL, 'it_IT')
 
 
-class Episodes(object):
+class Parser(object):
     def __init__(self, baseurl: str):
         # self._baseurl = baseurl
         self._baseurl = baseurl

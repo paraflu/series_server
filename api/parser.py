@@ -1,7 +1,9 @@
 from cmath import exp
 from flask import Blueprint, abort, jsonify, request
+from api.models.serie import Serie
 
-from api.wiki_parser.episodes import Episodes
+from api.wiki_parser import Parser
+from app import db
 
 parser_api = Blueprint('api', __name__)
 
@@ -15,7 +17,11 @@ def index():
 def parse_data():
     try:
         serie = request.form['series']
-        serie = Episodes(serie).get()
-        return jsonify(serie.to_dict())
+        serie = Parser(serie).get()
+        
+        it = Serie.convert(serie)
+        db.session.add(it)
+        db.session.commit()
+        return jsonify(it)
     except Exception as e:
         return abort(500, e)

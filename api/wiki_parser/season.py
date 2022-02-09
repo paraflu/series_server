@@ -20,7 +20,7 @@ class Season:
         self.num_episodes = num_episodes
         self.first_aired = first_aired
         self.local_aired = local_aired
-        self.episoded = episodes
+        self.episodes = episodes
 
     def __str__(self) -> str:
         """Converte la classe in stringa
