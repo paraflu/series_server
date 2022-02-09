@@ -69,7 +69,7 @@ class Parser(object):
                 local_aired
             )
 
-            logging.debug(e)
+            # logging.debug(e)
             episodes.append(e)
 
         return episodes

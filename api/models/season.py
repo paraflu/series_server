@@ -21,7 +21,7 @@ class Season(db.Model):
             first_aired=the_season.first_aired,
             local_aired=the_season.local_aired,
         )
-        for episode in the_season.episodes:
+        for episode in the_season.episodes.sort(key=lambda e: e.episode_no):
             ret.episodes.append(Episode.convert(episode))
         return ret
 
@@ -34,5 +34,5 @@ class Season(db.Model):
             "num_episodes": self.num_episodes,
             "first_aired": self.first_aired,
             "local_aired": self.local_aired,
-            "episodes": [e.as_dict() for e in self.episodes]
+            "episodes": [e.as_dict() for e in self.episodes.sort(key=lambda e: e.episode_no)]
         }
