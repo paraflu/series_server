@@ -1,11 +1,13 @@
 from datetime import datetime
 from typing import Dict
+from api.wiki_parser import episode
 from app import db
 from ..wiki_parser import Episode as ViewEpisode
 
 
 class Episode(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    episode_no = db.Column(db.Integer)
     original_title = db.Column(db.String(120), nullable=False)
     local_title = db.Column(db.String(120), nullable=True)
     first_aired = db.Column(
@@ -18,6 +20,7 @@ class Episode(db.Model):
     @staticmethod
     def convert(the_episode: ViewEpisode):
         return Episode(
+            episode_no=the_episode.episode_no,
             original_title=the_episode.original_title,
             local_title=the_episode.local_title,
             first_aired=the_episode.first_aired,

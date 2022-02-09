@@ -16,7 +16,7 @@ class Season:
             local_aired (str, optional): anno di pubblicazione in italia. Defaults to None.
             episodes (List[Episode], optional): elenco episodi. Defaults to [].
             """
-        self.n = n
+        self.season_no = n
         self.num_episodes = num_episodes
         self.first_aired = first_aired
         self.local_aired = local_aired
@@ -28,7 +28,7 @@ class Season:
         Returns:
             str: rappresentazione stringa della classe
         """
-        return f'ser {self.n} {self.first_aired if self.first_aired else "-"} - {self.local_aired if self.local_aired else "-"}'
+        return f'ser {self.season_no} {self.first_aired if self.first_aired else "-"} - {self.local_aired if self.local_aired else "-"}'
 
     @property
     def last(self, local=True) -> Optional[Episode]:
@@ -49,7 +49,7 @@ class Season:
 
     def to_dict(self) -> Dict:
         return {
-            'n': self.n,
+            'season_no': self.season_no,
             'num_episodes': self.num_episodes,
             'first_aired': self.first_aired,
             'local_aired': self.local_aired,
