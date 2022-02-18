@@ -1,9 +1,12 @@
 from cmath import exp
+import os
 from flask import Blueprint, abort, jsonify, request
-from api.models.serie import Serie
+# from api.models.serie import Serie
 
 from api.wiki_parser import Parser
-from app import db
+from api.wiki_parser.serie import Serie
+# from app import db
+from db import Db
 
 parser_api = Blueprint('api', __name__)
 
@@ -19,9 +22,10 @@ def parse_data():
         serie = request.form['series']
         serie = Parser(serie).get()
 
-        it = Serie.convert(serie)
-        db.session.add(it)
-        db.session.commit()
-        return jsonify(it.as_dict())
+        fb = Db(os.environ['CRED_STORE'])
+        r = fb.add_serie(serie)
+        # db.session.add(it)
+        # db.session.commit()
+        return jsonify(r.as_dict())
     except Exception as e:
         return abort(500, e)

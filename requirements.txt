@@ -6,4 +6,5 @@ requests
 pytest
 lxml
 dateparser
-flask-sqlalchemy
+# flask-sqlalchemy
+firebase_admin
