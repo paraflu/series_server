@@ -41,7 +41,7 @@ class Season:
             Optional[Episode]: [description]
         """
         if len(self.episodes) > 0:
-            list = [e for e in self.episoded if e.first_aired]
+            list = [e for e in self.episodes if e.first_aired]
             if local:
                 list = [e for e in list if e.local_aired]
             return list[-1]
@@ -53,5 +53,5 @@ class Season:
             'num_episodes': self.num_episodes,
             'first_aired': self.first_aired,
             'local_aired': self.local_aired,
-            'episodes': [e.to_dict() for e in self.episoded],
+            'episodes': [e.to_dict() for e in self.episodes],
         }

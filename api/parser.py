@@ -7,6 +7,10 @@ from api.wiki_parser import Parser
 from api.wiki_parser.serie import Serie
 # from app import db
 from db import Db
+import logging
+
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
 
 parser_api = Blueprint('api', __name__)
 
@@ -26,6 +30,7 @@ def parse_data():
         r = fb.add_serie(serie)
         # db.session.add(it)
         # db.session.commit()
-        return jsonify(r.as_dict())
+        return jsonify(r)
     except Exception as e:
+        logger.exception("Inserimento e parse fallito")
         return abort(500, e)
