@@ -1,6 +1,9 @@
 from cmath import exp
 import os
+from pprint import pprint
 from flask import Blueprint, abort, jsonify, request
+from itsdangerous import json
+from sqlalchemy import true
 # from api.models.serie import Serie
 
 from api.wiki_parser import Parser
@@ -14,10 +17,30 @@ logger.setLevel(logging.DEBUG)
 
 parser_api = Blueprint('api', __name__)
 
+fb = Db(os.environ['CRED_STORE'])
+
 
 @parser_api.route('/')
 def index():
     return "no data"
+
+
+@parser_api.route('/series')
+def serie_list():
+    serie_name = request.args.get('serie_name')
+    if serie_name is None:
+        return abort(400, {'error': true, 'message': 'badrequest'})
+    logger.debug(f'serie richiesta {serie_name}')
+    r = fb.find(serie_name)
+    if r is None:
+        return abort(404, {'error': true, 'message': 'not found'})
+    logger.debug("a", r.to_dict())
+    return jsonify(r.to_dict()), 200
+
+
+@parser_api.route('/list')
+def get_serie():
+    return jsonify([s.to_dict()['title'] for s in fb.serie])
 
 
 @parser_api.route('/parse', methods=['POST'])
@@ -25,12 +48,10 @@ def parse_data():
     try:
         serie = request.form['series']
         serie = Parser(serie).get()
-
-        fb = Db(os.environ['CRED_STORE'])
         r = fb.add_serie(serie)
         # db.session.add(it)
         # db.session.commit()
-        return jsonify(r)
+        return jsonify(r.to_dict()), 200
     except Exception as e:
         logger.exception("Inserimento e parse fallito")
         return abort(500, e)

@@ -15,8 +15,21 @@ class Db:
     def add_serie(self, serie: Serie):
         item = self.db.collection('serie').document(serie.title)
         doc = item.get()
-        if doc:
+        if doc.exists:
             item.update(serie.to_dict())
         else:
             item.set(serie.to_dict())
-        return item
+        return doc
+
+    def get(self, serie_name: str):
+        return self.find(serie_name)
+
+    def find(self, serie_name: str):
+        itemRef = self.db.collection('serie').document(serie_name)
+        return itemRef.get()
+
+    @property
+    def serie(self):
+        itemRef = self.db.collection('serie')
+        return itemRef.get()
+    
