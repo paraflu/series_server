@@ -1,14 +1,12 @@
 
 import os
-from firebase_admin import credentials
 from firebase_admin import firestore
 
 from api.wiki_parser.serie import Serie
 
 
 class Db:
-    def __init__(self, credential_file: str):
-        self.cred = credentials.Certificate(credential_file)
+    def __init__(self):
         self.db = firestore.client()
 
     def add_serie(self, serie: Serie):

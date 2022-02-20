@@ -1,7 +1,5 @@
 from api.parser import parser_api
-import os
 from flask import Flask
-import firebase_admin
 
 from firebase_app import init_app
 
