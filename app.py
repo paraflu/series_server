@@ -1,11 +1,16 @@
 from api.parser import parser_api
 import os
 from flask import Flask
+import firebase_admin
+
+from firebase_app import init_app
 
 # from flask_sqlalchemy import SQLAlchemy
 # from flask_migrate import Migrate, migrate
 
 # dbfile = 'series.sqlite3'
+
+init_app()
 
 app = Flask(__name__)
 app.debug = True

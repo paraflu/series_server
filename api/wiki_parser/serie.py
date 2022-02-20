@@ -2,8 +2,15 @@ from typing import Dict
 
 
 class Serie:
-    def __init__(self, title):
+    def __init__(self, title: str, url: str):
+        """Inizializzo la classe serie
+
+        Args:
+            title (str): titolo della serie
+            url (str): url dal quale i dati sono stati parsati
+        """
         self.title = title
+        self.url = url
         self.seasons = []
 
     def to_dict(self) -> Dict:

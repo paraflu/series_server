@@ -1,3 +1,5 @@
+
+import re
 from datetime import datetime
 import locale
 from typing import Dict, List, Optional
@@ -27,7 +29,10 @@ class Parser(object):
         r = BeautifulSoup(data, 'lxml')
         table = r.select_one('table.wikitable')
         title = r.select_one('#firstHeading').text
-        serie = Serie(title)
+        if re.search(r'\(serie televisiva\)', title):
+            title = re.sub(r'\(serie televisiva\)', '', title,
+                           flags=re.IGNORECASE)
+        serie = Serie(title.strip(), self._baseurl)
 
         seasons = []
         if table:
@@ -35,6 +40,9 @@ class Parser(object):
                 seasons.append(self._parse_row(row))
         serie.seasons = seasons
         return serie
+
+    def refresh(self, serie: Serie) -> Serie:
+        return self.get(serie.url)
 
     def _parse_date(self, date_str) -> Optional[datetime]:
         if date_str.strip() == '':

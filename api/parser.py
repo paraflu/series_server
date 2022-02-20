@@ -4,6 +4,7 @@ from pprint import pprint
 from flask import Blueprint, abort, jsonify, request
 from itsdangerous import json
 from sqlalchemy import true
+from api.auth import validate_request
 # from api.models.serie import Serie
 
 from api.wiki_parser import Parser
@@ -17,13 +18,7 @@ logger.setLevel(logging.DEBUG)
 
 parser_api = Blueprint('api', __name__)
 
-fb = Db(os.environ['CRED_STORE'])
-
-
-@parser_api.route('/')
-def index():
-    return "no data"
-
+fb = Db()
 
 @parser_api.route('/series')
 def serie_list():
@@ -45,12 +40,15 @@ def get_serie():
 
 @parser_api.route('/parse', methods=['POST'])
 def parse_data():
+    """Parse di un url per ottenere la serie tv
+
+    Returns:
+        dict: serie parsata
+    """
     try:
-        serie = request.form['series']
-        serie = Parser(serie).get()
+        url = request.form['url']
+        serie = Parser(url).get()
         r = fb.add_serie(serie)
-        # db.session.add(it)
-        # db.session.commit()
         return jsonify(r.to_dict()), 200
     except Exception as e:
         logger.exception("Inserimento e parse fallito")

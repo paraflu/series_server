@@ -12,7 +12,7 @@
             "env": {
                 "FLASK_APP": "app.py",
                 "FLASK_ENV": "development",
-                "CRED_STORE": "tvser-3740f-firebase-adminsdk-qqos5-7e0ce8dc04.json"
+                "CRED_STORE": "tvser-3740f-firebase-adminsdk-qqos5-99519ea20c.json",
             },
             "args": [
                 "run",
