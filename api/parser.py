@@ -3,7 +3,6 @@ import os
 from pprint import pprint
 from flask import Blueprint, abort, jsonify, request
 from itsdangerous import json
-from sqlalchemy import true
 from api.auth import validate_request
 # from api.models.serie import Serie
 
@@ -28,11 +27,11 @@ fb = Db()
 def serie_list():
     serie_name = request.args.get('serie_name')
     if serie_name is None:
-        return abort(400, {'error': true, 'message': 'badrequest'})
+        return abort(400, {'error': True, 'message': 'badrequest'})
     logger.debug(f'serie richiesta {serie_name}')
     r = fb.find(serie_name)
     if r is None:
-        return abort(404, {'error': true, 'message': 'not found'})
+        return abort(404, {'error': True, 'message': 'not found'})
     logger.debug("a", r.to_dict())
     return jsonify(r.to_dict()), 200
 
