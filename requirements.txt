@@ -9,3 +9,4 @@ dateparser
 # flask-sqlalchemy
 firebase_admin
 pyrebase
+gunicorn
