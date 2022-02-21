@@ -1,11 +1,7 @@
 flask==1.1.2
-itsdangerous==2.0.1
-nose
 beautifulsoup4
 requests
-pytest
 lxml
 dateparser
 firebase_admin
-pyrebase
 gunicorn

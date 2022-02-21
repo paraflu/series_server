@@ -2,7 +2,6 @@
 #https://makedeveasy.medium.com/authenitcation-using-python-flask-and-firestore-1958d29e2240
 
 from functools import wraps
-import firebase_admin
 from flask import abort, request, session
 
 from firebase_admin import auth

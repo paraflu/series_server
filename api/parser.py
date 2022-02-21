@@ -1,14 +1,8 @@
-from cmath import exp
-import os
-from pprint import pprint
 from flask import Blueprint, abort, jsonify, request
-from itsdangerous import json
 from api.auth import validate_request
-# from api.models.serie import Serie
 
 from api.wiki_parser import Parser
 from api.wiki_parser.serie import Serie
-# from app import db
 from db import Db
 import logging
 

@@ -4,7 +4,6 @@ from firebase_admin import firestore
 
 from api.wiki_parser.serie import Serie
 
-
 class Db:
     def __init__(self):
         self.db = firestore.client()
