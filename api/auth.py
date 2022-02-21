@@ -2,13 +2,12 @@
 #https://makedeveasy.medium.com/authenitcation-using-python-flask-and-firestore-1958d29e2240
 
 from functools import wraps
-import firebase_admin
 from flask import abort, request, session
 
 from firebase_admin import auth
 
 def validate_request(req_type):
-    if req_type is 'json' and not request.json:
+    if req_type == 'json' and not request.json:
         abort(400)
     
     if 'Authentication' in request.headers:

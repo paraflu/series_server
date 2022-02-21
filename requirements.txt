@@ -1,11 +1,7 @@
-Flask
-Flask-Testing
-nose
+flask==1.1.2
 beautifulsoup4
 requests
-pytest
 lxml
 dateparser
-# flask-sqlalchemy
 firebase_admin
-pyrebase
+gunicorn
