@@ -1,0 +1,11 @@
+Flask
+Flask-Testing
+nose
+beautifulsoup4
+requests
+pytest
+lxml
+dateparser
+# flask-sqlalchemy
+firebase_admin
+pyrebase

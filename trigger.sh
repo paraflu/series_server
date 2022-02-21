@@ -1,0 +1,1 @@
+curl -X POST http://0.0.0.0:5000/api/parser/ -F "series=https://it.wikipedia.org/wiki/The_Good_Doctor_(serie_televisiva)"

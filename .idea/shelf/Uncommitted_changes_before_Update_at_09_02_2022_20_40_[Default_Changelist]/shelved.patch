@@ -1,0 +1,43 @@
+Index: parser/__init__.py
+===================================================================
+diff --git a/parser/__init__.py b/parser/__init__.py
+--- a/parser/__init__.py	
++++ b/parser/__init__.py	
+@@ -1,0 +1,1 @@
++from wiki import Episode
+Index: parser/wiki/episodes.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from bs4 import BeautifulSoup\r\nimport requests\r\n\r\n\r\nclass Episode(object):\r\n    def __init__(self, baseurl: str):\r\n        # self._baseurl = baseurl\r\n        self._baseurl = 'https://it.wikipedia.org/wiki/9-1-1_(serie_televisiva)#Episodi'\r\n\r\n    def get(self):\r\n        response = requests.get(self._baseurl)\r\n        data = response.text\r\n        r = BeautifulSoup(data, 'lxml')\r\n
+===================================================================
+diff --git a/parser/wiki/episodes.py b/parser/wiki/episodes.py
+--- a/parser/wiki/episodes.py	
++++ b/parser/wiki/episodes.py	
+@@ -3,11 +3,12 @@
+ 
+ 
+ class Episode(object):
+-    def __init__(self, baseurl: str):
++    def __init__(self, baseurl: str = 'https://it.wikipedia.org/wiki/9-1-1_(serie_televisiva)#Episodi'):
+         # self._baseurl = baseurl
+-        self._baseurl = 'https://it.wikipedia.org/wiki/9-1-1_(serie_televisiva)#Episodi'
++        self._baseurl = baseurl
+ 
+-    def get(self):
++    def get(self) -> str:
+         response = requests.get(self._baseurl)
+         data = response.text
+         r = BeautifulSoup(data, 'lxml')
++        return r.text
+Index: parser/wiki/__init__.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from episodes import Episode
+===================================================================
+diff --git a/parser/wiki/__init__.py b/parser/wiki/__init__.py
+--- a/parser/wiki/__init__.py	
++++ b/parser/wiki/__init__.py	
+@@ -1,1 +1,1 @@
+-from episodes import Episode
+\ No newline at end of file
++from episodes import Episode
