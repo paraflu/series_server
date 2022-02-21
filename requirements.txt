@@ -1,13 +1,11 @@
-Flask==1.1.2
+flask==1.1.2
 itsdangerous==2.0.1
-Flask-Testing
 nose
 beautifulsoup4
 requests
 pytest
 lxml
 dateparser
-# flask-sqlalchemy
 firebase_admin
 pyrebase
 gunicorn

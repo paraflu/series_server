@@ -8,7 +8,7 @@ from flask import abort, request, session
 from firebase_admin import auth
 
 def validate_request(req_type):
-    if req_type is 'json' and not request.json:
+    if req_type == 'json' and not request.json:
         abort(400)
     
     if 'Authentication' in request.headers:
