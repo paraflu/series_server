@@ -6,14 +6,12 @@ from api.wiki_parser.serie import Serie
 from db import Db
 import logging
 
-from firebase_app import init_app
+import firebase_app
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
 parser_api = Blueprint('api', __name__)
-
-init_app()
 
 fb = Db()
 
