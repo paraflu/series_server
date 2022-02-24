@@ -12,9 +12,12 @@ class Serie:
         self.title = title
         self.url = url
         self.seasons = []
+        self.image = None
 
     def to_dict(self) -> Dict:
         return {
             'title': self.title,
-            'seasons': [s.to_dict() for s in self.seasons]
+            'seasons': [s.to_dict() for s in self.seasons],
+            'url': self.url,
+            'image': self.image
         }

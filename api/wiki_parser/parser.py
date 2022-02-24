@@ -2,7 +2,7 @@
 import re
 from datetime import datetime
 import locale
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
 from bs4 import BeautifulSoup
 import requests
 
@@ -11,6 +11,7 @@ import dateparser
 from .episode import Episode
 from .season import Season
 from .serie import Serie
+from .exceptions import EpisodeNotFoundException
 
 import logging
 logging.basicConfig(level=logging.DEBUG)
@@ -29,15 +30,20 @@ class Parser(object):
         r = BeautifulSoup(data, 'lxml')
         table = r.select_one('table.wikitable')
         title = r.select_one('#firstHeading').text
+        image = r.select_one('.floatnone > a >img')
         if re.search(r'\(serie televisiva\)', title):
             title = re.sub(r'\(serie televisiva\)', '', title,
                            flags=re.IGNORECASE)
         serie = Serie(title.strip(), self._baseurl)
 
+        serie.image = image['src']
+
         seasons = []
         if table:
             for row in table.find_all('tr')[1:]:
-                seasons.append(self._parse_row(row))
+                season = self._parse_row(row)
+                if not season is None:
+                    seasons.append(season)
         serie.seasons = seasons
         return serie
 
@@ -53,7 +59,10 @@ class Parser(object):
         page = requests.get(f'https://it.wikipedia.org{link}')
 
         doc = BeautifulSoup(page.text, 'lxml')
-        r_episodes = doc.select_one('table.wikitable').find_all('tr')[1:]
+        table = doc.select_one('table.wikitable')
+        if table is None:
+            raise EpisodeNotFoundException()
+        r_episodes = table.find_all('tr')[1:]
 
         episodes = []
         count = 1
@@ -86,12 +95,19 @@ class Parser(object):
         cell = row.find_all('td')
         season = cell[0].text.strip()
         season_link = cell[0].find('a')['href']
-        episodes = int(cell[1].text.strip())
+        str_episode = cell[1].text.strip()
+        if str_episode == "":
+            episodes = 0
+        else:
+            episodes = int(str_episode)
         first_aired = cell[2].text.strip()
         if len(cell) > 3:
             first_aired_it = cell[3].text.strip()
 
-        s = Season(season, num_episodes=episodes, first_aired=first_aired,
-                   local_aired=first_aired_it, episodes=self._get_episodes(season_link))
-        logging.debug(s)
-        return s
+        try:
+            s = Season(season, num_episodes=episodes, first_aired=first_aired,
+                       local_aired=first_aired_it, episodes=self._get_episodes(season_link))
+            logging.debug(s)
+            return s
+        except EpisodeNotFoundException:
+            return None

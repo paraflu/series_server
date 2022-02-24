@@ -1,0 +1,2 @@
+class EpisodeNotFoundException(Exception):
+    pass
