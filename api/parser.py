@@ -8,6 +8,7 @@ import logging
 
 import firebase_app
 
+logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
