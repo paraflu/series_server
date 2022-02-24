@@ -36,7 +36,7 @@ class Parser(object):
                            flags=re.IGNORECASE)
         serie = Serie(title.strip(), self._baseurl)
 
-        serie.image = image['src']
+        serie.image = image['src'] if not image is None else None
 
         seasons = []
         if table:
