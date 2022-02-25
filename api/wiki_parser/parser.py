@@ -38,8 +38,8 @@ class Parser(object):
         image = r.select_one('.floatnone > a >img')
 
         serie.image = image['src'] if not image is None else None
-        if not re.search(r'^http', self.image):
-            self.imate = f'https:{self.image}'
+        # if not re.search(r'^http', self.image):
+        #     self.imate = f'https:{self.image}'
 
         seasons = []
         if table:

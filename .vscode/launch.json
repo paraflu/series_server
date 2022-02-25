@@ -11,7 +11,7 @@
       "program": "app.py",
       "console": "integratedTerminal",
       "env": {
-        "CRED_STORE": "tvser-3740f-firebase-adminsdk-qqos5-99519ea20c.json"
+        "CRED_STORE": "tvser-3740f-firebase-adminsdk-qqos5-9864dbee8a.json"
       },
       "args": [
         "-c",
