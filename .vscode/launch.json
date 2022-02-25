@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Python: File corrente",
+      "name": "Python: AppCli",
       "type": "python",
       "request": "launch",
       "program": "app.py",

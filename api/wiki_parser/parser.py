@@ -30,13 +30,16 @@ class Parser(object):
         r = BeautifulSoup(data, 'lxml')
         table = r.select_one('table.wikitable')
         title = r.select_one('#firstHeading').text
-        image = r.select_one('.floatnone > a >img')
         if re.search(r'\(serie televisiva\)', title):
             title = re.sub(r'\(serie televisiva\)', '', title,
                            flags=re.IGNORECASE)
         serie = Serie(title.strip(), self._baseurl)
 
+        image = r.select_one('.floatnone > a >img')
+
         serie.image = image['src'] if not image is None else None
+        if not re.search(r'^http', self.image):
+            self.imate = f'https:{self.image}'
 
         seasons = []
         if table:
