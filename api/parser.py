@@ -58,5 +58,5 @@ def refresh():
     for s in fb.serie:
         serie = Parser(s.to_dict()['url']).get()
         fb.add_serie(serie)
-        ids.append(serie.id)
+        ids.append(serie.title)
     return ids
