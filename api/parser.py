@@ -54,6 +54,9 @@ def parse_data():
 
 @parser_api.route('/sync')
 def refresh():
+    ids = []
     for s in fb.serie:
         serie = Parser(s.to_dict()['url']).get()
         fb.add_serie(serie)
+        ids.append(serie.id)
+    return ids
