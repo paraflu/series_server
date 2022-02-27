@@ -1,7 +1,7 @@
 from flask import Blueprint, abort, jsonify, request
 from api.auth import validate_request
 
-from api.wiki_parser import Parser
+from api.wiki_parser import Parser, parser
 from api.wiki_parser.serie import Serie
 from db import Db
 import logging
@@ -15,6 +15,7 @@ logger.setLevel(logging.DEBUG)
 parser_api = Blueprint('api', __name__)
 
 fb = Db()
+
 
 @parser_api.route('/series')
 def serie_list():
@@ -49,3 +50,10 @@ def parse_data():
     except Exception as e:
         logger.exception("Inserimento e parse fallito")
         return abort(500, e)
+
+
+@parser_api.route('/sync')
+def refresh():
+    for s in fb.serie:
+        serie = Parser(s.to_dict()['url']).get()
+        fb.add_serie(serie)

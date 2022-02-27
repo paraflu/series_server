@@ -9,7 +9,7 @@ default_app = None
 if default_app is None:
     if 'CRED_STORE' in os.environ:
         if os.path.isfile(os.environ['CRED_STORE']):
-            data = json.load(os.environ["CRED_STORE"])
+            data = json.load(open(os.environ["CRED_STORE"]))
         else:
             data = json.loads(base64.b64decode(os.environ['CRED_STORE']))
         cred = credentials.Certificate(data)
