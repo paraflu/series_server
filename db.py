@@ -45,7 +45,7 @@ class Db:
         return groupsRef.get()
 
     @property
-    def users():
+    def users(self):
         page = auth.list_users()
         while page:
             for user in page.users:
