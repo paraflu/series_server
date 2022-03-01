@@ -59,8 +59,6 @@ def refresh():
     group_id = fb.groups[0].id
     for s in fb.serie:
         serie = Parser(s.to_dict()['url']).get()
-        if not group_id in serie.groups:
-            serie.groups.add(group_id)
         fb.add_serie(serie)
         ids.append(serie.title)
     return jsonify(ids), 200
