@@ -52,20 +52,20 @@ if __name__ == "__main__":
             sys.exit(2)
 
         db = Db()
-        group_id = db.groups[0].id
+        # group_id = db.groups[0].id
 
-        user = next(users())
-        for g in db.groups:
-            if user.uid in g.to_dict()['users']:
-                guid = g.id
-                break
+        # user = next(users())
+        # for g in db.groups:
+        #     if user.uid in g.to_dict()['users']:
+        #         guid = g.id
+        #         break
 
         for u in args.url:
             serie = Parser(u).get()
             # if not group_id in serie.groups:
             #     serie.groups.add(group_id)
             logging.debug(serie)
-            r = db.add_serie(serie, guid)
+            r = db.add_serie(serie)
             logging.debug(r)
     else:
         app.run()
