@@ -52,3 +52,7 @@ class Season:
             'local_aired': self.local_aired,
             'episodes': [e.to_dict() for e in self.episodes],
         }
+
+    @property
+    def id(self) -> str:
+        return f'S{self.season_no:02}'

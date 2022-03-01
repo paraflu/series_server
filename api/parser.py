@@ -1,3 +1,4 @@
+from sys import prefix
 from flask import Blueprint, abort, jsonify, request
 from api.auth import validate_request
 
@@ -12,7 +13,7 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
-parser_api = Blueprint('api', __name__)
+parser_api = Blueprint('api', __name__, url_prefix="/api")
 
 fb = Db()
 
@@ -55,8 +56,11 @@ def parse_data():
 @parser_api.route('/sync')
 def refresh():
     ids = []
+    group_id = fb.groups[0].id
     for s in fb.serie:
         serie = Parser(s.to_dict()['url']).get()
+        if not group_id in serie.groups:
+            serie.groups.add(group_id)
         fb.add_serie(serie)
         ids.append(serie.title)
     return jsonify(ids), 200

@@ -4,6 +4,7 @@ from datetime import datetime
 import locale
 from typing import Dict, List, Optional, Union
 from bs4 import BeautifulSoup
+from bs4.element import ResultSet, Tag
 import requests
 
 import dateparser
@@ -43,8 +44,9 @@ class Parser(object):
 
         seasons = []
         if table:
+            ser = 0
             for row in table.find_all('tr')[1:]:
-                season = self._parse_row(row)
+                season = self._parse_row(ser, row)
                 if not season is None:
                     seasons.append(season)
         serie.seasons = seasons
@@ -58,7 +60,7 @@ class Parser(object):
             return None
         return dateparser.parse(date_str)
 
-    def _get_episodes(self, link) -> List[Episode]:
+    def _get_episodes(self, sesno: int,  link: Tag) -> List[Episode]:
         page = requests.get(f'https://it.wikipedia.org{link}')
 
         doc = BeautifulSoup(page.text, 'lxml')
@@ -82,6 +84,7 @@ class Parser(object):
                     local_aired = self._parse_date(r[4].text.strip())
 
             e = Episode(
+                sesno,
                 n,
                 original_title,
                 local_title,
@@ -94,9 +97,18 @@ class Parser(object):
 
         return episodes
 
-    def _parse_row(self, row) -> Dict:
+    def _parse_row(self, sesno: int, row: Tag) -> Dict:
+        """Parse di una stagione
+
+        Args:
+            sesno (int): numero progressivo stagione
+            row (ResultSet): dettagli della stagione
+
+        Returns:
+            Dict: _description_
+        """
         cell = row.find_all('td')
-        season = cell[0].text.strip()
+        # season = cell[0].text.strip()
         season_link = cell[0].find('a')['href']
         str_episode = cell[1].text.strip()
         if str_episode == "":
@@ -108,8 +120,8 @@ class Parser(object):
             first_aired_it = cell[3].text.strip()
 
         try:
-            s = Season(season, num_episodes=episodes, first_aired=first_aired,
-                       local_aired=first_aired_it, episodes=self._get_episodes(season_link))
+            s = Season(sesno, num_episodes=episodes, first_aired=first_aired,
+                       local_aired=first_aired_it, episodes=self._get_episodes(sesno, season_link))
             logging.debug(s)
             return s
         except EpisodeNotFoundException:
