@@ -31,9 +31,9 @@ def users():
         page = page.get_next_page()
 
 
-@app.route('/users')
-def _users_():
-    return jsonify([{"uid": u.uid, "email": u.email, "display_name": u.display_name} for u in users()])
+# @app.route('/users')
+# def _users_():
+#     return jsonify([{"uid": u.uid, "email": u.email, "display_name": u.display_name} for u in users()])
 
 if __name__ == "__main__":
 
