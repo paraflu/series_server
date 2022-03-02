@@ -46,6 +46,7 @@ class Parser(object):
         if table:
             ser = 0
             for row in table.find_all('tr')[1:]:
+                ser += 1
                 season = self._parse_row(ser, row)
                 if not season is None:
                     seasons.append(season)
