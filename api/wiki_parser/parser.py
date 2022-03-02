@@ -71,10 +71,12 @@ class Parser(object):
         r_episodes = table.find_all('tr')[1:]
 
         episodes = []
-        count = 1
+        count = 0
+
+        trame = doc.select('h2')
         for r in [cells.find_all('td') for cells in r_episodes]:
-            n = count
             count += 1
+            n = count
             original_title = r[1].text.strip()
             local_title = r[2].text.strip()
             first_aired = None
@@ -84,13 +86,20 @@ class Parser(object):
                 if len(r) > 4:
                     local_aired = self._parse_date(r[4].text.strip())
 
+            p = None
+            if len(trame) >= count:
+                h = trame[count-1]
+            # PageElement
+                p = h.find_next('p')
+
             e = Episode(
                 sesno,
                 n,
                 original_title,
                 local_title,
                 first_aired,
-                local_aired
+                local_aired,
+                p.text if p is not None else None
             )
 
             # logging.debug(e)

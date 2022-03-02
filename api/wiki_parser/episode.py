@@ -3,7 +3,8 @@ from typing import Dict
 
 
 class Episode:
-    def __init__(self, season_no: int, n: int, original_title: str, local_title: str, first_aired: datetime = None, local_aired: datetime = None):
+    def __init__(self, season_no: int, n: int, original_title: str, local_title: str,
+                 first_aired: datetime = None, local_aired: datetime = None, trama: str = None):
         """Inizializza un episodio
 
         Args:
@@ -20,6 +21,7 @@ class Episode:
         self.local_title = local_title
         self.first_aired = first_aired
         self.local_aired = local_aired
+        self.trama = trama
 
     @property
     def id(self):
@@ -37,4 +39,5 @@ class Episode:
             'local_title': self.local_title,
             'first_aired': self.first_aired.isoformat() if self.first_aired else None,
             'local_aired': self.local_aired.isoformat() if self.local_aired else None,
+            'trama' : self.trama
         }
