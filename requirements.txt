@@ -5,3 +5,4 @@ lxml
 dateparser
 firebase_admin
 gunicorn
+cinemagoer
