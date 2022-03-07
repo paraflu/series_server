@@ -32,6 +32,7 @@ class Serie(object):
         if 'tv series' in self._it['kind']:
             self._db.update(self._it, 'episodes')
 
+    @property
     def seasons_no(self) -> int:
         """Numero di stagioni
 
@@ -40,7 +41,6 @@ class Serie(object):
         """
         return len(self._it.keys())
 
-    @property
     def season(self, id: int) -> List[Movie]:
         """recupera gli episodi di una stagione
 
