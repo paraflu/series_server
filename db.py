@@ -2,7 +2,7 @@
 import os
 from firebase_admin import firestore, auth
 
-from api.wiki_parser.serie import Serie
+from wiki_parser.serie import Serie
 
 
 class Db:

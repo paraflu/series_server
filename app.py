@@ -5,8 +5,9 @@ import sys
 from api.parser import parser_api
 from flask import Flask, abort, jsonify, request
 from firebase_admin import auth
+from imdbstore import IMDBStore
 
-from api.wiki_parser.parser import Parser
+from wiki_parser.parser import WikiParser
 from db import Db
 from groups import groups_route
 
@@ -59,9 +60,12 @@ if __name__ == "__main__":
         #     if user.uid in g.to_dict()['users']:
         #         guid = g.id
         #         break
+        
+        store = IMDBStore()
 
         for u in args.url:
-            serie = Parser(u).get()
+            serie = WikiParser(u).get()
+            #imdb_serie = store.searchById(72)
             # if not group_id in serie.groups:
             #     serie.groups.add(group_id)
             logging.debug(serie)

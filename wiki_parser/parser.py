@@ -20,7 +20,7 @@ logging.basicConfig(level=logging.DEBUG)
 locale.setlocale(locale.LC_ALL, 'it_IT')
 
 
-class Parser(object):
+class WikiParser(object):
     def __init__(self, baseurl: str):
         # self._baseurl = baseurl
         self._baseurl = baseurl
@@ -28,7 +28,7 @@ class Parser(object):
     def get(self) -> Serie:
         response = requests.get(self._baseurl)
         data = response.text
-        r = BeautifulSoup(data, 'lxml')
+        r = BeautifulSoup(data, 'html.parser')
         table = r.select_one('table.wikitable')
         title = r.select_one('#firstHeading').text
         if re.search(r'\(serie televisiva\)', title):
@@ -37,11 +37,18 @@ class Parser(object):
         serie = Serie(title.strip(), self._baseurl)
 
         image = r.select_one('.floatnone > a >img')
-
+        
         serie.image = image['src'] if not image is None else None
         # if not re.search(r'^http', self.image):
         #     self.imate = f'https:{self.image}'
-
+        
+        # cerco un riferimento a imdb
+        imdb = r.select_one('a[href*="https://www.imdb.com/Name?tt"]')
+        if not imdb is None:
+            serie.imdb_id = re.search(r'\?tt(\d+)',imdb['href']).groups()[0]
+            
+            
+            
         seasons = []
         if table:
             ser = 0

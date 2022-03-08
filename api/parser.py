@@ -2,8 +2,8 @@ from sys import prefix
 from flask import Blueprint, abort, jsonify, request
 from api.auth import validate_request
 
-from api.wiki_parser import Parser, parser
-from api.wiki_parser.serie import Serie
+from wiki_parser import WikiParser, parser
+from wiki_parser.serie import Serie
 from db import Db
 import logging
 
@@ -45,7 +45,7 @@ def parse_data():
     """
     try:
         url = request.form['url']
-        serie = Parser(url).get()
+        serie = WikiParser(url).get()
         r = fb.add_serie(serie)
         return jsonify(r.to_dict()), 200
     except Exception as e:
@@ -58,7 +58,7 @@ def refresh():
     ids = []
     group_id = fb.groups[0].id
     for s in fb.serie:
-        serie = Parser(s.to_dict()['url']).get()
+        serie = WikiParser(s.to_dict()['url']).get()
         fb.add_serie(serie)
         ids.append(serie.title)
     return jsonify(ids), 200
