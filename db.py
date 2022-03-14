@@ -25,6 +25,8 @@ class Db:
             payload = serie.to_dict()
             payload.update({'groups': [gid]})
             item.set(payload)
+            
+
         return doc
 
     def get(self, serie_name: str):

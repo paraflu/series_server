@@ -1,7 +1,7 @@
-from typing import List
+from typing import Dict, List
 from imdb import Cinemagoer
 from imdb.Movie import Movie
-
+import dateparser
 
 class IMDBStore(object):
     def __init__(self):
@@ -57,3 +57,23 @@ class Serie(object):
 
     def __getattr__(self, k):
         return self._it[k]
+    
+    def to_dict(self) -> Dict:
+        episodes = [[{
+            'movieID':self['episodes'][serid][ep].movieID,
+            'title': self['episodes'][serid][ep]['title'],
+            'season': self['episodes'][serid][ep]['season'],
+            'episode': self['episodes'][serid][ep]['episode'],
+            'firstAired': dateparser.parse(self['episodes'][serid][ep]['original air date']) if 'original air date' in self['episodes'][serid][ep] else None,
+            'plot': self['episodes'][serid][ep]['plot'],
+            'year': self['episodes'][serid][ep]['year'] if 'year' in self['episodes'][serid][ep] else None,
+            
+        } for ep in self['episodes'][serid]] for serid in self['episodes'].keys()]
+        return {
+            'movid_id': self._it.movieID,
+            'kind': self['kind'],
+            'title': self['title'],
+            'episodes': [
+                episodes
+            ]
+        }

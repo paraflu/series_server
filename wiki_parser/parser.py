@@ -9,6 +9,8 @@ import requests
 
 import dateparser
 
+from imdbstore import IMDBStore, Serie as IMDBSerie
+
 from .episode import Episode
 from .season import Season
 from .serie import Serie
@@ -24,8 +26,9 @@ class WikiParser(object):
     def __init__(self, baseurl: str):
         # self._baseurl = baseurl
         self._baseurl = baseurl
+        self._store = IMDBStore()
 
-    def get(self) -> Serie:
+    def get(self, parse_imdb: bool= False) -> Serie:
         response = requests.get(self._baseurl)
         data = response.text
         r = BeautifulSoup(data, 'html.parser')
@@ -46,6 +49,9 @@ class WikiParser(object):
         imdb = r.select_one('a[href*="https://www.imdb.com/Name?tt"]')
         if not imdb is None:
             serie.imdb_id = re.search(r'\?tt(\d+)',imdb['href']).groups()[0]
+            if parse_imdb and serie.imdb_id:
+                serie.imdb = IMDBSerie(serie.imdb_id)
+                return serie
             
             
             

@@ -1,11 +1,12 @@
 import argparse
 from distutils.debug import DEBUG
+import json
 import logging
 import sys
 from api.parser import parser_api
 from flask import Flask, abort, jsonify, request
 from firebase_admin import auth
-from imdbstore import IMDBStore
+from imdbstore import IMDBStore, Serie as IMDBSerie
 
 from wiki_parser.parser import WikiParser
 from db import Db
@@ -31,6 +32,14 @@ def users():
         # Get next batch of users.
         page = page.get_next_page()
 
+from datetime import date, datetime
+
+def json_serial(obj):
+    """JSON serializer for objects not serializable by default json code"""
+
+    if isinstance(obj, (datetime, date)):
+        return obj.isoformat()
+    raise TypeError ("Type %s not serializable" % type(obj))
 
 # @app.route('/users')
 # def _users_():
@@ -40,6 +49,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='TvSeries Scraper')
     parser.add_argument('-c', '--cli', action='store_true')
+    parser.add_argument('-i', '--imdb', nargs="+", type=int)
     parser.add_argument('url', nargs="*")
 
     args = parser.parse_args()
@@ -47,6 +57,12 @@ if __name__ == "__main__":
     if args.cli:
         import logging
         logging.basicConfig(level=logging.DEBUG)
+        
+        if args.imdb:
+            for id in args.imdb:
+                serie = IMDBSerie(id)
+                print(json.dumps(serie.to_dict(), default=json_serial))
+                sys.exit(0)
 
         if not args.url:
             sys.stderr.write(f'Parametro <url> non trovato')

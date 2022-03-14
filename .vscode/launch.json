@@ -15,15 +15,20 @@
       },
       "args": [
         "-c",
-        "https://it.wikipedia.org/wiki/9-1-1:_Lone_Star",
-        "https://it.wikipedia.org/wiki/The_Good_Doctor_(serie_televisiva)",
-        "https://it.wikipedia.org/wiki/9-1-1_(serie_televisiva)",
-        "https://it.wikipedia.org/wiki/Station_19",
-        "https://it.wikipedia.org/wiki/The_Resident_(serie_televisiva)",
-        "https://it.wikipedia.org/wiki/Transplant",
-        "https://it.wikipedia.org/wiki/S.W.A.T._(serie_televisiva_2017)",
-        "https://it.wikipedia.org/wiki/FBI_(serie_televisiva)"
+        "-i",
+        "7235466"
       ]
+      // "args": [
+      //   "-c",
+      //   "https://it.wikipedia.org/wiki/9-1-1:_Lone_Star",
+      //   "https://it.wikipedia.org/wiki/The_Good_Doctor_(serie_televisiva)",
+      //   "https://it.wikipedia.org/wiki/9-1-1_(serie_televisiva)",
+      //   "https://it.wikipedia.org/wiki/Station_19",
+      //   "https://it.wikipedia.org/wiki/The_Resident_(serie_televisiva)",
+      //   "https://it.wikipedia.org/wiki/Transplant",
+      //   "https://it.wikipedia.org/wiki/S.W.A.T._(serie_televisiva_2017)",
+      //   "https://it.wikipedia.org/wiki/FBI_(serie_televisiva)"
+      // ]
     },
     {
       "name": "Python: Flask",
@@ -33,9 +38,12 @@
       "env": {
         "FLASK_APP": "app.py",
         "FLASK_ENV": "development",
-        "CRED_STORE": "tvser-3740f-firebase-adminsdk-qqos5-99519ea20c.json"
+        "CRED_STORE": "tvser-3740f-firebase-adminsdk-qqos5-9864dbee8a.json"
       },
-      "args": ["run", "--no-debugger"],
+      "args": [
+        "run",
+        "--no-debugger"
+      ],
       "jinja": true
     }
   ]
